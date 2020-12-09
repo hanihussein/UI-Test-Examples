@@ -1,7 +1,9 @@
 package com.hani.uitestbasics
 
+import android.text.style.ClickableSpan
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
@@ -48,5 +50,44 @@ class MainActivityTest {
                 ViewMatchers.withText(R.string.text_mainactivity)
             )
         )
+    }
+
+
+    @Test
+    fun navigation_toSecondaryScreen_true() {
+        val mainActivityScenario = ActivityScenario.launch(MainActivity::class.java)
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_next_activity)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withText(R.string.text_secondaryactivity)).check(
+            ViewAssertions.matches(
+                ViewMatchers.isDisplayed()
+            )
+        )
+
+    }
+
+    @Test
+    fun navigation_toSecondaryScreenAndBack_true() {
+        val mainActivityScenario = ActivityScenario.launch(MainActivity::class.java)
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_next_activity)).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withText(R.string.text_secondaryactivity)).check(
+            ViewAssertions.matches(
+                ViewMatchers.isDisplayed()
+            )
+        )
+
+        Espresso.pressBack()
+
+
+        Espresso.onView(ViewMatchers.withText(R.string.text_mainactivity)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+            )
+        )
+
+
     }
 }
