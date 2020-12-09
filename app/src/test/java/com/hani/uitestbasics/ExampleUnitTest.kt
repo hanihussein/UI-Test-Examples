@@ -1,4 +1,4 @@
-package com.hani.uitestingbasics
+package com.hani.uitestbasics
 
 import org.junit.Test
 

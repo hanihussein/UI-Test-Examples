@@ -1,4 +1,4 @@
-package com.hani.uitestingbasics
+package com.hani.uitestbasics
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
