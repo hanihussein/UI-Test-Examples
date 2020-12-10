@@ -11,8 +11,8 @@
         android:theme="@style/Theme.UITestingBasics">
 
 
-        <activity android:name="com.codingwithmitch.espressouitestexamples.ui.main.SecondaryActivity" />
-        <activity android:name="com.codingwithmitch.espressouitestexamples.ui.main.MainActivity">
+        <activity android:name=".main.ui.SecondaryActivity" />
+        <activity android:name=".main.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,8 +6,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import com.codingwithmitch.espressouitestexamples.ui.main.SecondaryActivity
-import org.junit.Assert.*
+import com.hani.uitestbasics.main.ui.SecondaryActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

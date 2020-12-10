@@ -1,13 +1,12 @@
 package com.hani.uitestbasics
 
-import android.text.style.ClickableSpan
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import com.codingwithmitch.espressouitestexamples.ui.main.MainActivity
+import com.hani.uitestbasics.main.ui.MainActivity
 import org.junit.Test
 import org.junit.runner.RunWith
 

@@ -1,4 +1,4 @@
-package com.codingwithmitch.espressouitestexamples.ui.main
+package com.hani.uitestbasics.main.ui
 
 import android.content.Intent
 import android.os.Bundle
