@@ -4,18 +4,31 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.hani.uitestbasics.R
+import com.hani.uitestbasics.main.ui.factory.MovieFragmentFactory
+import com.hani.uitestbasics.main.ui.fragments.MovieDetailFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportFragmentManager.fragmentFactory = MovieFragmentFactory()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button_next_activity.setOnClickListener {
-            val intent = Intent(this@MainActivity, SecondaryActivity::class.java)
-            startActivity(intent)
+        init()
+    }
+
+
+
+    private fun init(){
+        if(supportFragmentManager.fragments.size == 0){
+            val movieId = 1
+            val bundle = Bundle()
+            bundle.putInt("movie_id", movieId)
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, MovieDetailFragment::class.java, bundle)
+                    .commit()
         }
     }
 
