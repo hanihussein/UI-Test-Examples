@@ -61,8 +61,7 @@ dependencies {
     // Espresso
     def androidx_test_espresso = "3.3.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso"
-
-
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$androidx_test_espresso"
 
     //glide
     def glide_version = "4.11.0"
