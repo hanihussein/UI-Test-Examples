@@ -2,15 +2,16 @@ package com.hani.uitestbasics.main.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.hani.uitestbasics.R
 import kotlinx.android.synthetic.main.activity_main.*
 
-const val GALLERY_REQUEST_CODE = 1234
+const val CAMERA_REQUEST_CODE = 1234
+const val KEY_IMAGE_DATA = "data"
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button_open_gallery.setOnClickListener {
+        button_camera.setOnClickListener {
             pickFromGallery()
         }
 
@@ -34,13 +35,14 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "RESULT_OK")
             when (requestCode) {
 
-                GALLERY_REQUEST_CODE -> {
+                CAMERA_REQUEST_CODE -> {
                     Log.d(TAG, "GALLERY_REQUEST_CODE detected.")
-                    data?.data?.let { uri ->
-                        Log.d(TAG, "URI: $uri")
-                        Glide.with(this)
-                            .load(uri)
-                            .into(image)
+                    data?.extras?.let { extras ->
+                        if (!extras.containsKey(KEY_IMAGE_DATA)) {
+                            return
+                        }
+                        val imageBitmap = extras[KEY_IMAGE_DATA] as Bitmap?
+                        image.setImageBitmap(imageBitmap)
                     }
                 }
             }
@@ -48,8 +50,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun pickFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, GALLERY_REQUEST_CODE)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA_REQUEST_CODE)
     }
 
 }

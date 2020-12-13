@@ -5,15 +5,19 @@ import android.app.Instrumentation
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Bundle
 import android.provider.MediaStore
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.platform.app.InstrumentationRegistry
 import com.hani.uitestbasics.R
@@ -31,41 +35,49 @@ class MainActivityIntentTest {
 
 
     @Test
-    fun galleryIntent_Validate_true() {
+    fun cameraIntent_Validate_true() {
 
         // Requested Intent
-        val expectedIntent: Matcher<Intent> = Matchers.allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
+        val expectedIntent: Matcher<Intent> = hasAction(MediaStore.ACTION_IMAGE_CAPTURE)
 
         //ExpectedResult
-        val activityResult = getGalleryPickActivityResultStub()
+        val activityResult = getCameraPickActivityResultStub()
         intending(expectedIntent).respondWith(activityResult)
 
+
+        Espresso.onView(withId(R.id.image)).check(
+            ViewAssertions.matches(
+                Matchers.not(
+                    DrawableCustomMatcher.hasDrawable()
+                )
+            )
+        )
+
         //Act
-        Espresso.onView(ViewMatchers.withId(R.id.button_open_gallery)).perform(ViewActions.click())
+        Espresso.onView(withId(R.id.button_camera)).perform(ViewActions.click())
 
         // Assert
         intended(expectedIntent)
 
+        Espresso.onView(withId(R.id.image)).check(
+            ViewAssertions.matches(
+                DrawableCustomMatcher.hasDrawable()
+            )
+        )
+
     }
 
 
-    private fun getGalleryPickActivityResultStub(): Instrumentation.ActivityResult {
+    private fun getCameraPickActivityResultStub(): Instrumentation.ActivityResult {
 
-        val resources:Resources = InstrumentationRegistry.getInstrumentation().context.resources
+        val resources: Resources = InstrumentationRegistry.getInstrumentation().context.resources
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_launcher_background)
 
-
-//        val imageUri = ( Uri.Builder())
-//                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-//                .authority(resources.getResourcePackageName(R.drawable.ic_launcher_background))
-//                .appendPath(resources.getResourceTypeName(R.drawable.ic_launcher_background))
-//                .appendPath(resources.getResourceEntryName(R.drawable.ic_launcher_background))
-//                .build()
-
-        val imageUri = Uri.parse("android.resource://com.hani.uitestbasics/drawable/ic_launcher_background.xml")
-
+        val bundle = Bundle()
+        bundle.putParcelable(KEY_IMAGE_DATA, bitmap)
 
         val intentResult = Intent()
-        intentResult.setData(imageUri)
+        intentResult.putExtras(bundle)
 
         return Instrumentation.ActivityResult(Activity.RESULT_OK, intentResult)
 
