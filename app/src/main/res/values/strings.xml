@@ -7,7 +7,9 @@
     <string name="text_secondary_fragment">This is Secondary Fragment</string>
     <string name="text_mainactivity">MainActivity</string>
     <string name="text_back">Back</string>
-    <string name="text_secondaryactivity">SecondaryActivity</string>
-    <string name="text_oops">Oops!</string>
-    <string name="text_select_image_from_gallery">Capture an image from camera</string>
+    <string name="text_launch_dialog">launch dialog</string>
+    <string name="text_title_of_dialog">Title of Dialog</string>
+    <string name="text_some_information">This dialog is displaying some information.</string>
+    <string name="text_ok">Ok</string>
+    <string name="text_enter_name">Enter your name</string>
 </resources>
