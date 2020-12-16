@@ -1,4 +1,4 @@
-package com.hani.uitestbasics.data
+package com.codingwithmitch.espressouitestexamples.data
 
 data class Movie (
     val id: Int,

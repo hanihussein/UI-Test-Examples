@@ -1,43 +1,58 @@
 package com.hani.uitestbasics.main.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.input.input
+import com.bumptech.glide.request.RequestOptions
+import com.codingwithmitch.espressouitestexamples.data.source.MoviesDataSource
+import com.codingwithmitch.espressouitestexamples.data.source.MoviesRemoteDataSource
+import com.codingwithmitch.espressouitestexamples.factory.MovieFragmentFactory
 import com.hani.uitestbasics.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    // dependencies (typically would be injected with dagger)
+    lateinit var requestOptions: RequestOptions
+    lateinit var moviesDataSource: MoviesDataSource
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        initDependencies()
+        supportFragmentManager.fragmentFactory = MovieFragmentFactory(
+            requestOptions,
+            moviesDataSource
+            )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button_launch_dialog.setOnClickListener {
-            showDialog()
+        init()
+    }
+
+    private fun init(){
+        if(supportFragmentManager.fragments.size == 0){
+            val movieId = 1
+            val bundle = Bundle()
+            bundle.putInt("movie_id", movieId)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MovieDetailFragment::class.java, bundle)
+                .commit()
         }
     }
 
-    private fun showDialog() {
+    private fun initDependencies(){
 
-        MaterialDialog(this).show {
+        // glide
+        requestOptions = RequestOptions
+            .placeholderOf(R.drawable.default_image)
+            .error(R.drawable.default_image)
 
-            input(
-                waitForPositiveButton = true,
-                allowEmpty = false
-            ) { dialog, name ->
-                setNameToTextView(name.toString())
-            }
-            title(R.string.text_enter_name)
-            positiveButton(R.string.text_ok)
-
-        }
-    }
-
-
-    private fun setNameToTextView(name: String) {
-        text_name.text = name
+        // Data Source
+        moviesDataSource = MoviesRemoteDataSource()
     }
 
 }
+
+
+
+
+
+
+
